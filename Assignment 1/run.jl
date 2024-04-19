@@ -10,7 +10,7 @@ using Clp       #load the package Clp (an open linear-programming solver)
 #Build the model and get variables and constraints back (see intro_mod.jl)
 include("model.jl")
 
-m, x,demands = build_model("dat.jl")
+m, x = build_model("dat.jl")
 print(m) # prints the model instance
 
 set_optimizer(m, Clp.Optimizer)
