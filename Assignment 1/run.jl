@@ -1,19 +1,37 @@
-using JuMP      #load the package JuMP
-using Clp       #load the package Clp (an open linear-programming solver)
-#using Gurobi   #The commercial optimizer Gurobi requires installation
+using JuMP, Gurobi
 
-#The ? can be put infront of commands, variables, and functions to get more information.
-#Note that is applied on the main object, hence to ask about an element in an array do:
-#element = array[5]
-#?element
-
-#Build the model and get variables and constraints back (see intro_mod.jl)
 include("model.jl")
+include("data.jl")
 
-m, x = build_model("dat.jl")
-print(m) # prints the model instance
+# Create the model
+model, x, b, area, water, petrol = bio_model()
 
-set_optimizer(m, Clp.Optimizer)
-set_optimizer_attribute(m, "LogLevel", 1)
-#set_optimizer(m, Gurobi.Optimizer)
-optimize!(m)
+# Set the solver to Gurobi
+set_optimizer(model, Gurobi.Optimizer)
+
+# Solve the model
+optimize!(model)
+
+if termination_status(model) == MOI.OPTIMAL
+
+    ha=value.(x)
+    liters=value.(b)
+    profit=objective_value(model)
+
+    # Display results
+    println("Optimal Solution:")
+    println("Land allocation (ha): ", ha)
+    println("Biodiesel production (liters): ", liters)
+    println("Profit: ", profit)
+
+
+    println("Dual value area: ", dual(area))
+    println("Dual value water: ", dual(water))
+    println("Dual value petrol: ", dual(petrol))
+
+    println("Shadow price area: ", shadow_price(area))
+    println("Shadow price water: ", shadow_price(water))
+    println("Shadow price petrol: ",shadow_price(petrol))
+else
+    println("Model did not solve to optimality. Status: ", termination_status(model))
+end
