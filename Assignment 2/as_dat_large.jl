@@ -1,8 +1,9 @@
 # Sets
 Components = 1:10 # 10 components
 
+
 # Parameters
-T = [50,100,150,200]    #number of timesteps
+T = 700  #number of timesteps
 d = ones(1,T)*20      #cost of a maintenance occasion
-c = [34 25 14 21 16  3 10  5  7 10]'*ones(1,T)     #costs of new components
+c = [34 25 14 21 16  3 10  5  7 10]'*ones(1,T+2)     #costs of new components
 U = [42 18 90 94 49 49 34 90 37 11]     #lives of new components
