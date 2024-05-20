@@ -3,12 +3,12 @@ using JuMP
 using Gurobi
 using SparseArrays
 
-include("as_dat_large.jl")
-include("as_mod.jl")
+include("as_dat_large_task3.jl")
+include("as_mod_task3.jl")
 
-m, x, z = build_model(true,true)
+m, x, z = build_model(true)
 set_optimizer(m, Gurobi.Optimizer)
-# set_optimizer_attributes(m, "MIPGap" => 2e-2, "TimeLimit" => 3600)
+set_optimizer_attributes(m, "MIPGap" => 2e-2, "TimeLimit" => 3600)
 """
 Some useful parameters for the Gurobi solver:
     SolutionLimit = k : the search is terminated after k feasible solutions has been found
@@ -19,27 +19,31 @@ Some useful parameters for the Gurobi solver:
 See http://www.gurobi.com/documentation/8.1/refman/parameters.html for a
 complete list of valid parameters
 """
-t1 = time()
-optimize!(m)
+#t1 = time()
+#optimize!(m)
 #unset_binary.(x)
 #unset_binary.(z)
-optimize!(m)
-elapsed_time = time() - t1
-println(elapsed_time)
+#optimize!(m)
+#println("Time = $(elapsed_time)")
 """
 Some useful output & functions
 """
-# obj_ip = objective_value(m)
-# unset_binary.(x)
-# unset_binary.(z)
-# optimize!(m)
-# obj_lp = objective_value(m)
-# println("obj_ip = $obj_ip, obj_lp = $obj_lp, gap = $(obj_ip-obj_lp) ")
+t1 = time()
+optimize!(m)
+obj_ip = objective_value(m)
+#unset_binary.(x)
+unset_binary.(z)
+optimize!(m)
+obj_lp = objective_value(m)
+println("obj_ip = $obj_ip, obj_lp = $obj_lp, gap = $(obj_ip-obj_lp) ")
 
-# println(solve_time(m))
+elapsed_time = time() - t1
+println("Time = $(elapsed_time)")
 
-# x_val = sparse(value.(x.data))
-# z_val = sparse(value.(z))
+println(solve_time(m))
+
+#x_val = sparse(value.(x.data))
+#z_val = sparse(value.(z))
 
 #println("x  = ")
 #println(x_val)
