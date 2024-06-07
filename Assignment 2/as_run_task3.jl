@@ -20,7 +20,7 @@ See http://www.gurobi.com/documentation/8.1/refman/parameters.html for a
 complete list of valid parameters
 """
 #t1 = time()
-#optimize!(m)
+optimize!(m)
 #unset_binary.(x)
 #unset_binary.(z)
 #optimize!(m)
@@ -28,17 +28,17 @@ complete list of valid parameters
 """
 Some useful output & functions
 """
-t1 = time()
-optimize!(m)
-obj_ip = objective_value(m)
+#t1 = time()
+#optimize!(m)
+#obj_ip = objective_value(m)
 #unset_binary.(x)
-unset_binary.(z)
-optimize!(m)
-obj_lp = objective_value(m)
-println("obj_ip = $obj_ip, obj_lp = $obj_lp, gap = $(obj_ip-obj_lp) ")
+#unset_binary.(z)
+#optimize!(m)
+#obj_lp = objective_value(m)
+#println("obj_ip = $obj_ip, obj_lp = $obj_lp, gap = $(obj_ip-obj_lp) ")
 
-elapsed_time = time() - t1
-println("Time = $(elapsed_time)")
+#elapsed_time = time() - t1
+#println("Time = $(elapsed_time)")
 
 println(solve_time(m))
 
